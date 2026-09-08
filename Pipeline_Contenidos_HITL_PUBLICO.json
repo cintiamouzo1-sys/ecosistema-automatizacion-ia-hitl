@@ -1,0 +1,2451 @@
+{
+  "name": "Pipeline de Contenidos IA – HITL Final",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -384,
+        -48
+      ],
+      "id": "04e40586-91fc-48db-89c4-71be1e460a90",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "authentication": "airtableOAuth2Api",
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appjp9trnetNoRlQ7",
+          "mode": "list",
+          "cachedResultName": "Pipeline de Contenidos HITL",
+          "cachedResultUrl": "https://airtable.com/appjp9trnetNoRlQ7"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblmiFgVps0TfDOIS",
+          "mode": "list",
+          "cachedResultName": "Control de Contenidos",
+          "cachedResultUrl": "https://airtable.com/appjp9trnetNoRlQ7/tblmiFgVps0TfDOIS"
+        },
+        "filterByFormula": "{Estado} = \"Generando\"",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        -112,
+        -192
+      ],
+      "id": "c208840f-78a5-4ecf-87fb-c95d5048b6ee",
+      "name": "Search records"
+    },
+    {
+      "parameters": {
+        "authentication": "airtableOAuth2Api",
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appjp9trnetNoRlQ7",
+          "mode": "list",
+          "cachedResultName": "Pipeline de Contenidos HITL",
+          "cachedResultUrl": "https://airtable.com/appjp9trnetNoRlQ7"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblmiFgVps0TfDOIS",
+          "mode": "list",
+          "cachedResultName": "Control de Contenidos",
+          "cachedResultUrl": "https://airtable.com/appjp9trnetNoRlQ7/tblmiFgVps0TfDOIS"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Aprobado": false,
+            "id": "={{ $('Search records').item.json.id }}",
+            "Borrador IA": "={{ $json.output[0].content[0].text }}",
+            "Estado": "En revisión"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Idea Semilla",
+              "displayName": "Idea Semilla",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Borrador IA",
+              "displayName": "Borrador IA",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Aprobado",
+              "displayName": "Aprobado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Generando",
+                  "value": "Generando"
+                },
+                {
+                  "name": "En revisión",
+                  "value": "En revisión"
+                },
+                {
+                  "name": "Aprobado",
+                  "value": "Aprobado"
+                },
+                {
+                  "name": "Rechazado",
+                  "value": "Rechazado"
+                },
+                {
+                  "name": "Publicado",
+                  "value": "Publicado"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Fecha última ejecución",
+              "displayName": "Fecha última ejecución",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        -240,
+        64
+      ],
+      "id": "085a2b57-fec6-49bc-85c6-4623fa399599",
+      "name": "Update record"
+    },
+    {
+      "parameters": {
+        "authentication": "airtableOAuth2Api",
+        "base": {
+          "__rl": true,
+          "value": "appjp9trnetNoRlQ7",
+          "mode": "list",
+          "cachedResultName": "Pipeline de Contenidos HITL",
+          "cachedResultUrl": "https://airtable.com/appjp9trnetNoRlQ7"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblmiFgVps0TfDOIS",
+          "mode": "list",
+          "cachedResultName": "Control de Contenidos",
+          "cachedResultUrl": "https://airtable.com/appjp9trnetNoRlQ7/tblmiFgVps0TfDOIS"
+        },
+        "id": "={{ $json.id }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        -272,
+        304
+      ],
+      "id": "e095f3c9-ba02-404e-b869-7124c29b0aa7",
+      "name": "Get a record"
+    },
+    {
+      "parameters": {
+        "amount": 1,
+        "unit": "minutes"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -448,
+        304
+      ],
+      "id": "bb4d4d94-21b6-457a-9cc2-14ad51b0c90c",
+      "name": "Wait",
+      "webhookId": "cda764ae-f276-4fe9-aa9b-275538470041"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "50b0732a-685f-4135-9006-2aa61197ae85",
+              "leftValue": "={{ $json.fields.Aprobado ?? false }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -80,
+        304
+      ],
+      "id": "6cf0ca76-52a7-4b63-aa92-864a687292d0",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "authentication": "airtableOAuth2Api",
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appjp9trnetNoRlQ7",
+          "mode": "list",
+          "cachedResultName": "Pipeline de Contenidos HITL",
+          "cachedResultUrl": "https://airtable.com/appjp9trnetNoRlQ7"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblmiFgVps0TfDOIS",
+          "mode": "list",
+          "cachedResultName": "Control de Contenidos",
+          "cachedResultUrl": "https://airtable.com/appjp9trnetNoRlQ7/tblmiFgVps0TfDOIS"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $('Get a record').item.json.id }}",
+            "Estado": "Aprobado",
+            "Fecha última ejecución": "={{ $now.toISO() }}",
+            "Fecha y hora de aprobación": "={{ $now.toISO() }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Idea Semilla",
+              "displayName": "Idea Semilla",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Borrador IA",
+              "displayName": "Borrador IA",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Aprobado",
+              "displayName": "Aprobado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Generando",
+                  "value": "Generando"
+                },
+                {
+                  "name": "En revisión",
+                  "value": "En revisión"
+                },
+                {
+                  "name": "Aprobado",
+                  "value": "Aprobado"
+                },
+                {
+                  "name": "Rechazado",
+                  "value": "Rechazado"
+                },
+                {
+                  "name": "Enviado",
+                  "value": "Enviado"
+                },
+                {
+                  "name": "Pendiente",
+                  "value": "Pendiente"
+                },
+                {
+                  "name": "Error",
+                  "value": "Error"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Fecha última ejecución",
+              "displayName": "Fecha última ejecución",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Última modificación",
+              "displayName": "Última modificación",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Ejecuciones",
+              "displayName": "Ejecuciones",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Email destinatario",
+              "displayName": "Email destinatario",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Gmail Thread ID",
+              "displayName": "Gmail Thread ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Aprobado por",
+              "displayName": "Aprobado por",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Fecha y hora de aprobación",
+              "displayName": "Fecha y hora de aprobación",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Email aprobador",
+              "displayName": "Email aprobador",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        144,
+        272
+      ],
+      "id": "46d694b2-ca10-4338-b8ef-d76e68ffba63",
+      "name": "Update record1"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "memoryKey": {
+          "__rl": true,
+          "mode": "list",
+          "value": "vector_store_key"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.3,
+      "position": [
+        1040,
+        224
+      ],
+      "id": "8c287b52-955d-426f-806c-3c199d6a538d",
+      "name": "Simple Vector Store"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        1200,
+        368
+      ],
+      "id": "962e5c23-98a6-4917-bfd8-e274e54b8966",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1056,
+        368
+      ],
+      "id": "6896a43a-aca3-4b3a-8da4-d44d5baa222c",
+      "name": "Embeddings OpenAI"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec97ffea-5ce9-41dd-9eba-dee45af2be51",
+              "name": "conocimiento",
+              "value": "BASE DE CONOCIMIENTO PRIVADA – CONTENIDOS DE LOGÍSTICA  La marca comunica contenidos profesionales relacionados con logística, distribución y última milla.  Lineamientos: - El público objetivo está compuesto por profesionales y estudiantes vinculados con logística, operaciones y cadena de suministro. - Los contenidos deben aportar valor práctico y evitar afirmaciones exageradas o información inventada. - Los temas prioritarios incluyen inteligencia artificial aplicada a logística, optimización de rutas, última milla, trazabilidad, SLA, automatización y eficiencia operativa. - El tono debe ser profesional, claro, cercano y adecuado para LinkedIn. - Los textos deben explicar de qué manera la tecnología puede contribuir a mejorar procesos logísticos. - No inventar estadísticas, porcentajes, empresas, estudios ni resultados que no estén incluidos en el contexto proporcionado. - Todo contenido generado por IA debe pasar por revisión y aprobación humana antes de considerarse apto para publicación. - Si el contenido no es aprobado, no debe avanzar hacia ninguna plataforma externa.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        928,
+        80
+      ],
+      "id": "11bc96b5-fcfc-433b-98b2-6e515372d32b",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "memoryKey": {
+          "__rl": true,
+          "mode": "list",
+          "value": "vector_store_key"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.3,
+      "position": [
+        1312,
+        96
+      ],
+      "id": "d279abaa-847e-40ed-8e33-0648b9277191",
+      "name": "Simple Vector Store1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1424,
+        240
+      ],
+      "id": "14e5229f-9093-49f7-8ea7-d42110bcb272",
+      "name": "Embeddings OpenAI1"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.retrieverVectorStore",
+      "typeVersion": 1,
+      "position": [
+        1296,
+        -48
+      ],
+      "id": "2e07ab3b-25ed-47c2-b4d7-3b366ad65f7e",
+      "name": "Vector Store Retriever"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ \"Busca en la base de conocimiento información relevante para desarrollar esta Idea Semilla: \" + $('Search records').item.json.fields['Idea Semilla'] }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainRetrievalQa",
+      "typeVersion": 1.7,
+      "position": [
+        800,
+        -224
+      ],
+      "id": "f8c2d104-65fc-4901-bc4c-77873e7ac2c5",
+      "name": "Question and Answer Chain"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-5-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        1120,
+        -16
+      ],
+      "id": "65fe52ff-466c-4fe0-9956-77b82864eef8",
+      "name": "OpenAI Chat Model"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 1
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -448,
+        -256
+      ],
+      "id": "b26eaa77-e9ef-499d-bfc2-d227fafe37fd",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.fields['Email aprobador'] }}",
+        "subject": "=Revisión requerida HITL – {{ $json.fields['Idea Semilla'] }}",
+        "message": "=<h2>Contenido pendiente de aprobación</h2>  <p><strong>Idea semilla:</strong> {{ $json.fields['Idea Semilla'] }}</p>  <p><strong>Borrador generado por IA:</strong></p>  <p>{{ $json.fields['Borrador IA'] }}</p>  <p>Ingresá a Airtable, revisá el contenido y marcá el campo <strong>Aprobado</strong> únicamente si puede enviarse.</p>  <p><a href=\"https://airtable.com/appjp9trnetNoRlQ7\">Abrir Pipeline de Contenidos HITL</a></p>  <p>Este mensaje fue generado automáticamente por el flujo HITL.</p>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -32,
+        64
+      ],
+      "id": "072f1cfa-4996-447e-bb58-499d1fecfdef",
+      "name": "Gmail – Solicitar aprobación HITL",
+      "webhookId": "272da9e7-4bcb-45b4-ad0b-5d896703b7c8"
+    },
+    {
+      "parameters": {
+        "authentication": "airtableOAuth2Api",
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appjp9trnetNoRlQ7",
+          "mode": "list",
+          "cachedResultName": "Pipeline de Contenidos HITL",
+          "cachedResultUrl": "https://airtable.com/appjp9trnetNoRlQ7"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblmiFgVps0TfDOIS",
+          "mode": "list",
+          "cachedResultName": "Control de Contenidos",
+          "cachedResultUrl": "https://airtable.com/appjp9trnetNoRlQ7/tblmiFgVps0TfDOIS"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $('Update record').item.json.id }}",
+            "Gmail Thread ID": "={{ $json.threadId }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Idea Semilla",
+              "displayName": "Idea Semilla",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Borrador IA",
+              "displayName": "Borrador IA",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Aprobado",
+              "displayName": "Aprobado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Generando",
+                  "value": "Generando"
+                },
+                {
+                  "name": "En revisión",
+                  "value": "En revisión"
+                },
+                {
+                  "name": "Aprobado",
+                  "value": "Aprobado"
+                },
+                {
+                  "name": "Rechazado",
+                  "value": "Rechazado"
+                },
+                {
+                  "name": "Enviado",
+                  "value": "Enviado"
+                },
+                {
+                  "name": "Pendiente",
+                  "value": "Pendiente"
+                },
+                {
+                  "name": "Error",
+                  "value": "Error"
+                }
+              ],
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Fecha última ejecución",
+              "displayName": "Fecha última ejecución",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Última modificación",
+              "displayName": "Última modificación",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Ejecuciones",
+              "displayName": "Ejecuciones",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Email destinatario",
+              "displayName": "Email destinatario",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Gmail Thread ID",
+              "displayName": "Gmail Thread ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Aprobado por",
+              "displayName": "Aprobado por",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Fecha y hora de aprobación",
+              "displayName": "Fecha y hora de aprobación",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Email aprobador",
+              "displayName": "Email aprobador",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        176,
+        64
+      ],
+      "id": "daa2eea7-c814-48cd-bc28-0e8c9ca681f2",
+      "name": "Airtable – Guardar Gmail Thread ID"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Get a record').item.json.fields['Email destinatario'] }}",
+        "subject": "=Contenido aprobado – {{ $('Get a record').item.json.fields['Idea Semilla'] }}",
+        "emailType": "text",
+        "message": "={{ $('Get a record').item.json.fields['Borrador IA'] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        352,
+        272
+      ],
+      "id": "23c8097f-bc6c-437a-882f-9993c4f1011f",
+      "name": "Gmail – Enviar contenido aprobado",
+      "webhookId": "fedd9fc4-b233-41a4-a210-2809b7d18d66"
+    },
+    {
+      "parameters": {
+        "authentication": "airtableOAuth2Api",
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appjp9trnetNoRlQ7",
+          "mode": "list",
+          "cachedResultName": "Pipeline de Contenidos HITL",
+          "cachedResultUrl": "https://airtable.com/appjp9trnetNoRlQ7"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblmiFgVps0TfDOIS",
+          "mode": "list",
+          "cachedResultName": "Control de Contenidos",
+          "cachedResultUrl": "https://airtable.com/appjp9trnetNoRlQ7/tblmiFgVps0TfDOIS"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $('Get a record').item.json.id }}",
+            "Estado": "Enviado",
+            "Gmail Thread ID": "={{ $json.threadId }}",
+            "Fecha última ejecución": "={{ $now.toISO() }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Idea Semilla",
+              "displayName": "Idea Semilla",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Borrador IA",
+              "displayName": "Borrador IA",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Aprobado",
+              "displayName": "Aprobado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Estado",
+              "displayName": "Estado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Generando",
+                  "value": "Generando"
+                },
+                {
+                  "name": "En revisión",
+                  "value": "En revisión"
+                },
+                {
+                  "name": "Aprobado",
+                  "value": "Aprobado"
+                },
+                {
+                  "name": "Rechazado",
+                  "value": "Rechazado"
+                },
+                {
+                  "name": "Enviado",
+                  "value": "Enviado"
+                },
+                {
+                  "name": "Pendiente",
+                  "value": "Pendiente"
+                },
+                {
+                  "name": "Error",
+                  "value": "Error"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Fecha última ejecución",
+              "displayName": "Fecha última ejecución",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Última modificación",
+              "displayName": "Última modificación",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Ejecuciones",
+              "displayName": "Ejecuciones",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Email destinatario",
+              "displayName": "Email destinatario",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Gmail Thread ID",
+              "displayName": "Gmail Thread ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Aprobado por",
+              "displayName": "Aprobado por",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Fecha y hora de aprobación",
+              "displayName": "Fecha y hora de aprobación",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Email aprobador",
+              "displayName": "Email aprobador",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        544,
+        272
+      ],
+      "id": "8a742ad4-dcb5-459e-b11b-734fc3c8593c",
+      "name": "Airtable – Marcar contenido enviado"
+    },
+    {
+      "parameters": {
+        "authentication": "airtableOAuth2Api",
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appjp9trnetNoRlQ7",
+          "mode": "list",
+          "cachedResultName": "Pipeline de Contenidos HITL",
+          "cachedResultUrl": "https://airtable.com/appjp9trnetNoRlQ7"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblc4c5g1NRIsF80J",
+          "mode": "list",
+          "cachedResultName": "Errores",
+          "cachedResultUrl": "https://airtable.com/appjp9trnetNoRlQ7/tblc4c5g1NRIsF80J"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID Error": "={{ 'ERR-' + $execution.id }}",
+            "Nodo con error": "OpenAI – Generar borrador",
+            "Tipo de error": "Error de IA",
+            "Mensaje de error sanitizado": "={{ $json.error?.message || $json.message || 'Error de OpenAI sin detalle' }}",
+            "Fecha y hora del error": "={{ $now.toISO() }}",
+            "Número de reintento": 3
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "ID Error",
+              "displayName": "ID Error",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Ejecución relacionada",
+              "displayName": "Ejecución relacionada",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Nodo con error",
+              "displayName": "Nodo con error",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Tipo de error",
+              "displayName": "Tipo de error",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Datos incompletos",
+                  "value": "Datos incompletos"
+                },
+                {
+                  "name": "Error de IA",
+                  "value": "Error de IA"
+                },
+                {
+                  "name": "JSON inválido",
+                  "value": "JSON inválido"
+                },
+                {
+                  "name": "Error de Airtable",
+                  "value": "Error de Airtable"
+                },
+                {
+                  "name": "Error de Gmail",
+                  "value": "Error de Gmail"
+                },
+                {
+                  "name": "Tiempo de espera agotado",
+                  "value": "Tiempo de espera agotado"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Mensaje de error sanitizado",
+              "displayName": "Mensaje de error sanitizado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Fecha y hora del error",
+              "displayName": "Fecha y hora del error",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Número de reintento",
+              "displayName": "Número de reintento",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        688,
+        16
+      ],
+      "id": "732598cb-ccea-4699-80b6-3bc2fc414ad1",
+      "name": "Airtable – Registrar error IA"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4",
+          "mode": "list",
+          "cachedResultName": "GPT-4"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "=Actúa como especialista en comunicación y marketing aplicado a logística.\n\nTu tarea es redactar un post profesional para LinkedIn utilizando exclusivamente la Idea Semilla proporcionada y el contexto privado indicado. No inventes estadísticas, cifras, fuentes ni información externa.\n\nContexto privado validado:\n- Área: logística y transporte.\n- Enfoque: operaciones de última milla.\n- Objetivo: comunicar mejoras de eficiencia, trazabilidad y calidad operativa.\n- Tono: profesional, claro y cercano.\n- El contenido debe requerir aprobación humana antes de su publicación.\n\nIdea Semilla:{{ $json.fields['Idea Semilla'] }}\nCONTEXTO PRIVADO RECUPERADO DEL RAG:\n{{ $json.Nombre }}\n\nUtiliza este contexto como fuente para redactar el post.\nNo inventes datos, estadísticas, empresas ni resultados que no estén presentes en el contexto."
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        368,
+        0
+      ],
+      "id": "4984952d-8497-4e20-857b-e0e7e1cefda4",
+      "name": "OpenAI – Generar borrador",
+      "retryOnFail": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "authentication": "airtableOAuth2Api",
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appjp9trnetNoRlQ7",
+          "mode": "list",
+          "cachedResultName": "Pipeline de Contenidos HITL",
+          "cachedResultUrl": "https://airtable.com/appjp9trnetNoRlQ7"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblc4c5g1NRIsF80J",
+          "mode": "list",
+          "cachedResultName": "Errores",
+          "cachedResultUrl": "https://airtable.com/appjp9trnetNoRlQ7/tblc4c5g1NRIsF80J"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID Error": "={{ 'ERR-HITL-' + $execution.id }}",
+            "Nodo con error": "IF – Verificar aprobación",
+            "Tipo de error": "Tiempo de espera agotado",
+            "Mensaje de error sanitizado": "No se recibió aprobación humana dentro del intervalo configurado.",
+            "Fecha y hora del error": "={{ $now.toISO() }}",
+            "Número de reintento": 1
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "ID Error",
+              "displayName": "ID Error",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Ejecución relacionada",
+              "displayName": "Ejecución relacionada",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Nodo con error",
+              "displayName": "Nodo con error",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Tipo de error",
+              "displayName": "Tipo de error",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Datos incompletos",
+                  "value": "Datos incompletos"
+                },
+                {
+                  "name": "Error de IA",
+                  "value": "Error de IA"
+                },
+                {
+                  "name": "JSON inválido",
+                  "value": "JSON inválido"
+                },
+                {
+                  "name": "Error de Airtable",
+                  "value": "Error de Airtable"
+                },
+                {
+                  "name": "Error de Gmail",
+                  "value": "Error de Gmail"
+                },
+                {
+                  "name": "Tiempo de espera agotado",
+                  "value": "Tiempo de espera agotado"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Mensaje de error sanitizado",
+              "displayName": "Mensaje de error sanitizado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Fecha y hora del error",
+              "displayName": "Fecha y hora del error",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Número de reintento",
+              "displayName": "Número de reintento",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        96,
+        432
+      ],
+      "id": "81f118b2-f453-4eee-b943-17683d361119",
+      "name": "Airtable – Registrar timeout HITL"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "03c65ab9-f457-44f1-9361-b393be6ec78f",
+              "leftValue": "={{ $json.fields['Idea Semilla'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "60a94488-df4e-4c6a-ba50-05ab853d30ea",
+              "leftValue": "={{ $json.fields['Email aprobador'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "898ad2a0-fb9f-49ef-8679-f82aa6175208",
+              "leftValue": "={{ $json.fields['Email destinatario'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        64,
+        -192
+      ],
+      "id": "d4d7e350-3ba8-4f1b-a5bc-eb5c261dc620",
+      "name": "IF – Validar datos obligatorios"
+    },
+    {
+      "parameters": {
+        "authentication": "airtableOAuth2Api",
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appjp9trnetNoRlQ7",
+          "mode": "list",
+          "cachedResultName": "Pipeline de Contenidos HITL",
+          "cachedResultUrl": "https://airtable.com/appjp9trnetNoRlQ7"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblc4c5g1NRIsF80J",
+          "mode": "list",
+          "cachedResultName": "Errores",
+          "cachedResultUrl": "https://airtable.com/appjp9trnetNoRlQ7/tblc4c5g1NRIsF80J"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Nodo con error": "=IF – Validar datos obligatorios",
+            "ID Error": "={{ 'ERR-DATOS-' + $execution.id }}",
+            "Tipo de error": "Datos incompletos",
+            "Mensaje de error sanitizado": "Faltan Idea Semilla, Email aprobador o Email destinatario.",
+            "Fecha y hora del error": "={{ $now.toISO() }}",
+            "Número de reintento": 0
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "ID Error",
+              "displayName": "ID Error",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Ejecución relacionada",
+              "displayName": "Ejecución relacionada",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Nodo con error",
+              "displayName": "Nodo con error",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Tipo de error",
+              "displayName": "Tipo de error",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Datos incompletos",
+                  "value": "Datos incompletos"
+                },
+                {
+                  "name": "Error de IA",
+                  "value": "Error de IA"
+                },
+                {
+                  "name": "JSON inválido",
+                  "value": "JSON inválido"
+                },
+                {
+                  "name": "Error de Airtable",
+                  "value": "Error de Airtable"
+                },
+                {
+                  "name": "Error de Gmail",
+                  "value": "Error de Gmail"
+                },
+                {
+                  "name": "Tiempo de espera agotado",
+                  "value": "Tiempo de espera agotado"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Mensaje de error sanitizado",
+              "displayName": "Mensaje de error sanitizado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Fecha y hora del error",
+              "displayName": "Fecha y hora del error",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Número de reintento",
+              "displayName": "Número de reintento",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        304,
+        -160
+      ],
+      "id": "99f77dc7-4e5d-4a96-a640-7e513282e43e",
+      "name": "Airtable – Registrar error de datos"
+    },
+    {
+      "parameters": {
+        "authentication": "airtableOAuth2Api",
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appjp9trnetNoRlQ7",
+          "mode": "list",
+          "cachedResultName": "Pipeline de Contenidos HITL",
+          "cachedResultUrl": "https://airtable.com/appjp9trnetNoRlQ7"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblOxeDzuDcD6B3Ks",
+          "mode": "list",
+          "cachedResultName": "Ejecuciones",
+          "cachedResultUrl": "https://airtable.com/appjp9trnetNoRlQ7/tblOxeDzuDcD6B3Ks"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID Ejecución": "={{ 'EXEC-' + $execution.id }}",
+            "Fecha y hora de inicio": "={{ $now.toISO() }}",
+            "Resultado": "Exitoso",
+            "Fecha y hora de fin": "={{ $now.toISO() }}",
+            "Tokens de entrada": "={{ Math.ceil((String($('Get a record').item.json.fields['Idea Semilla'] || '').length) / 4) }}",
+            "Tokens de salida": "={{ Math.ceil((String($('Get a record').item.json.fields['Borrador IA'] || '').length) / 4) }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "ID Ejecución",
+              "displayName": "ID Ejecución",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Contenido relacionado",
+              "displayName": "Contenido relacionado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Fecha y hora de inicio",
+              "displayName": "Fecha y hora de inicio",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Resultado",
+              "displayName": "Resultado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Exitoso",
+                  "value": "Exitoso"
+                },
+                {
+                  "name": "Error",
+                  "value": "Error"
+                },
+                {
+                  "name": "En espera",
+                  "value": "En espera"
+                },
+                {
+                  "name": "Rechazado",
+                  "value": "Rechazado"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Fecha y hora de fin",
+              "displayName": "Fecha y hora de fin",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Duración (segundos)",
+              "displayName": "Duración (segundos)",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Tokens de entrada",
+              "displayName": "Tokens de entrada",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Tokens de salida",
+              "displayName": "Tokens de salida",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Costo estimado USD",
+              "displayName": "Costo estimado USD",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Errores",
+              "displayName": "Errores",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        736,
+        272
+      ],
+      "id": "e96d0dcb-62b1-49b4-b5f3-4372b76495c5",
+      "name": "Airtable – Registrar ejecución exitosa"
+    },
+    {
+      "parameters": {
+        "authentication": "airtableOAuth2Api",
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appjp9trnetNoRlQ7",
+          "mode": "list",
+          "cachedResultName": "Pipeline de Contenidos HITL",
+          "cachedResultUrl": "https://airtable.com/appjp9trnetNoRlQ7"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblOxeDzuDcD6B3Ks",
+          "mode": "list",
+          "cachedResultName": "Ejecuciones",
+          "cachedResultUrl": "https://airtable.com/appjp9trnetNoRlQ7/tblOxeDzuDcD6B3Ks"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID Ejecución": "={{ 'EXEC-DATOS-' + $execution.id }}",
+            "Fecha y hora de inicio": "={{ $now.toISO() }}",
+            "Resultado": "Error",
+            "Fecha y hora de fin": "={{ $now.toISO() }}",
+            "Tokens de entrada": 0,
+            "Tokens de salida": 0
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "ID Ejecución",
+              "displayName": "ID Ejecución",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Contenido relacionado",
+              "displayName": "Contenido relacionado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Fecha y hora de inicio",
+              "displayName": "Fecha y hora de inicio",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Resultado",
+              "displayName": "Resultado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Exitoso",
+                  "value": "Exitoso"
+                },
+                {
+                  "name": "Error",
+                  "value": "Error"
+                },
+                {
+                  "name": "En espera",
+                  "value": "En espera"
+                },
+                {
+                  "name": "Rechazado",
+                  "value": "Rechazado"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Fecha y hora de fin",
+              "displayName": "Fecha y hora de fin",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Duración (segundos)",
+              "displayName": "Duración (segundos)",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Tokens de entrada",
+              "displayName": "Tokens de entrada",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Tokens de salida",
+              "displayName": "Tokens de salida",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Costo estimado USD",
+              "displayName": "Costo estimado USD",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Errores",
+              "displayName": "Errores",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        512,
+        -160
+      ],
+      "id": "1df369b2-4a19-400e-a48a-70de8d7c07ec",
+      "name": "Airtable – Registrar ejecución con datos incompletos"
+    },
+    {
+      "parameters": {
+        "authentication": "airtableOAuth2Api",
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appjp9trnetNoRlQ7",
+          "mode": "list",
+          "cachedResultName": "Pipeline de Contenidos HITL",
+          "cachedResultUrl": "https://airtable.com/appjp9trnetNoRlQ7"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblOxeDzuDcD6B3Ks",
+          "mode": "list",
+          "cachedResultName": "Ejecuciones",
+          "cachedResultUrl": "https://airtable.com/appjp9trnetNoRlQ7/tblOxeDzuDcD6B3Ks"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID Ejecución": "={{ 'EXEC-HITL-' + $execution.id }}",
+            "Fecha y hora de inicio": "={{ $now.toISO() }}",
+            "Resultado": "Error",
+            "Fecha y hora de fin": "={{ $now.toISO() }}",
+            "Tokens de entrada": "={{ Math.ceil((String($('Get a record').item.json.fields['Idea Semilla'] || '').length) / 4) }}",
+            "Tokens de salida": "={{ Math.ceil((String($('Get a record').item.json.fields['Borrador IA'] || '').length) / 4) }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "ID Ejecución",
+              "displayName": "ID Ejecución",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Contenido relacionado",
+              "displayName": "Contenido relacionado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Fecha y hora de inicio",
+              "displayName": "Fecha y hora de inicio",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Resultado",
+              "displayName": "Resultado",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Exitoso",
+                  "value": "Exitoso"
+                },
+                {
+                  "name": "Error",
+                  "value": "Error"
+                },
+                {
+                  "name": "En espera",
+                  "value": "En espera"
+                },
+                {
+                  "name": "Rechazado",
+                  "value": "Rechazado"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Fecha y hora de fin",
+              "displayName": "Fecha y hora de fin",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Duración (segundos)",
+              "displayName": "Duración (segundos)",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Tokens de entrada",
+              "displayName": "Tokens de entrada",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Tokens de salida",
+              "displayName": "Tokens de salida",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Costo estimado USD",
+              "displayName": "Costo estimado USD",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Errores",
+              "displayName": "Errores",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        272,
+        432
+      ],
+      "id": "70e4324e-2763-4d4d-a97c-59e3784d9e50",
+      "name": "Airtable – Registrar ejecución sin aprobación"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Search records",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search records": {
+      "main": [
+        [
+          {
+            "node": "IF – Validar datos obligatorios",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a record": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update record": {
+      "main": [
+        [
+          {
+            "node": "Gmail – Solicitar aprobación HITL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Update record1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Airtable – Registrar timeout HITL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Get a record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Vector Store": {
+      "main": [
+        []
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Simple Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Vector Store1": {
+      "ai_vectorStore": [
+        [
+          {
+            "node": "Vector Store Retriever",
+            "type": "ai_vectorStore",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vector Store Retriever": {
+      "ai_retriever": [
+        [
+          {
+            "node": "Question and Answer Chain",
+            "type": "ai_retriever",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Question and Answer Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Question and Answer Chain": {
+      "main": [
+        [
+          {
+            "node": "OpenAI – Generar borrador",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Search records",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail – Solicitar aprobación HITL": {
+      "main": [
+        [
+          {
+            "node": "Airtable – Guardar Gmail Thread ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Airtable – Guardar Gmail Thread ID": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update record1": {
+      "main": [
+        [
+          {
+            "node": "Gmail – Enviar contenido aprobado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail – Enviar contenido aprobado": {
+      "main": [
+        [
+          {
+            "node": "Airtable – Marcar contenido enviado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI – Generar borrador": {
+      "main": [
+        [
+          {
+            "node": "Update record",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Airtable – Registrar error IA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF – Validar datos obligatorios": {
+      "main": [
+        [
+          {
+            "node": "Question and Answer Chain",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Airtable – Registrar error de datos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Airtable – Marcar contenido enviado": {
+      "main": [
+        [
+          {
+            "node": "Airtable – Registrar ejecución exitosa",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Airtable – Registrar error de datos": {
+      "main": [
+        [
+          {
+            "node": "Airtable – Registrar ejecución con datos incompletos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Airtable – Registrar timeout HITL": {
+      "main": [
+        [
+          {
+            "node": "Airtable – Registrar ejecución sin aprobación",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "nodeGroups": [],
+  "tags": []
+}
