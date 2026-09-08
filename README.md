@@ -18,7 +18,7 @@ El ecosistema integra:
 
 ## Archivos del repositorio
 
-* `Entrega_Final_Ecosistema_IA_HITL_Cintia_Mouzo_ACTUALIZADA.pdf`: documentación completa y evidencias.
+* `Entrega_Final_Ecosistema_IA_HITL_Cintia_Mouzo_FINAL.pdf`: documentación completa y evidencias.
 * `Pipeline_Contenidos_HITL_PUBLICO.json`: workflow público de n8n, preparado sin credenciales privadas.
 
 ## Resultados de las pruebas
